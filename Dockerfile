@@ -10,8 +10,8 @@ RUN apk add --no-cache openssl
 # Copy package files
 COPY package.json package-lock.json* ./
 
-# Install all dependencies
-RUN npm ci
+# Install all dependencies (with legacy peer deps for nodemailer compatibility)
+RUN npm ci --legacy-peer-deps
 
 # Copy source code
 COPY . .
