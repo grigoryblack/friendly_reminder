@@ -33,9 +33,10 @@ RUN apk add --no-cache openssl curl
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
+# Create empty public directory (Next.js requires it)
+RUN mkdir -p public && chown nextjs:nodejs public
+
 # Copy necessary files from builder
-# Copy public folder (use wildcard to make it optional)
-COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
