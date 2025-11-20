@@ -20,6 +20,7 @@ export default function ProfilePage() {
   const [avatarUrl, setAvatarUrl] = useState('')
   const [uploadError, setUploadError] = useState('')
   const [sessionUpdateAttempted, setSessionUpdateAttempted] = useState(false)
+  const [showPayment, setShowPayment] = useState(false)
 
   useEffect(() => {
     if (status === 'loading') return
@@ -32,6 +33,7 @@ export default function ProfilePage() {
     setName(session.user.name || '')
     setEmail(session.user.email || '')
     setAvatarUrl(session.user.image || '')
+    setShowPayment(['ADMIN', 'STUDENT'].includes(session.user.role))
   }, [session, status, router])
 
   // Update avatar URL when session changes
@@ -179,7 +181,7 @@ export default function ProfilePage() {
                   Изменить пароль
                 </Button>
               </Link>
-              <PaymentMethodDialog />
+              {showPayment && <PaymentMethodDialog />}
             </div>
           </div>
         </div>
