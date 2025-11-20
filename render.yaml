@@ -1,0 +1,36 @@
+services:
+  # Web Service (Docker)
+  - type: web
+    name: friendly-reminder
+    env: docker
+    region: frankfurt # или другой регион ближе к вам
+    plan: free # или starter/standard
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        value: postgresql://root:80gnIBVDbbfCXEUEPLo0PKDtNyKsMQhB@dpg-d4fgn615pdvs73ag1upg-a/friendly_reminder
+      - key: NEXTAUTH_URL
+        sync: false # Установите вручную в Render Dashboard
+      - key: NEXTAUTH_SECRET
+        generateValue: true # Render сгенерирует автоматически
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: 587
+      - key: SMTP_SECURE
+        value: false
+      - key: SMTP_USER
+        sync: false # Установите вручную
+      - key: SMTP_PASSWORD
+        sync: false # Установите вручную
+      - key: SMTP_FROM
+        sync: false # Установите вручную
+      - key: MEGA_EMAIL
+        value: drz2002@yandex.ru
+      - key: MEGA_PASSWORD
+        sync: false # Установите вручную
+      - key: RUN_SEED
+        value: false # Установите true для первого деплоя
+    healthCheckPath: /api/health
