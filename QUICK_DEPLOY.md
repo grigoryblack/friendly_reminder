@@ -53,7 +53,7 @@ MEGA_EMAIL=drz2002@yandex.ru
 MEGA_PASSWORD=grigory2002
 
 NODE_ENV=production
-RUN_SEED=true
+RUN_SEED=true  # Автоматически создаст тестовые аккаунты
 ```
 
 ⚠️ **Важно:** Замените:
