@@ -139,14 +139,16 @@ export function ImageUpload({
     <div className={`space-y-4 ${className}`}>
       <div className="flex flex-col items-center space-y-4">
         {/* Image Preview */}
-        <div className="relative">
+        <div
+          className="relative overflow-hidden"
+          style={{ width: `${width}px`, height: `${height}px` }}
+        >
           {previewUrl ? (
             <MegaImage
               src={previewUrl}
               alt="Image preview"
-              width={width}
-              height={height}
-              className={`object-cover border-4 border-gray-200 ${isRounded ? 'rounded-full' : ''}`}
+              className={`${isRounded ? 'object-cover' : 'object-contain'} border-4 border-gray-200 ${isRounded ? 'rounded-full' : ''}`}
+              isRounded={isRounded}
             />
           ) : (
             <div 

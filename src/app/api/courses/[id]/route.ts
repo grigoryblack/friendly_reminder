@@ -36,7 +36,13 @@ export async function GET(
         },
         _count: {
           select: {
-            bookings: true
+            bookings: {
+              where: {
+                status: {
+                  in: ['PENDING', 'CONFIRMED']
+                }
+              }
+            }
           }
         }
       }
@@ -112,7 +118,13 @@ export async function PUT(
         },
         _count: {
           select: {
-            bookings: true
+            bookings: {
+              where: {
+                status: {
+                  in: ['PENDING', 'CONFIRMED']
+                }
+              }
+            }
           }
         }
       }
@@ -162,7 +174,13 @@ export async function DELETE(
         },
         _count: {
           select: {
-            bookings: true
+            bookings: {
+              where: {
+                status: {
+                  in: ['PENDING', 'CONFIRMED']
+                }
+              }
+            }
           }
         }
       }

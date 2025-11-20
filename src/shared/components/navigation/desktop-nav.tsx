@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { Calendar, BookOpen, User, Settings, GraduationCap, Users, LogOut } from 'lucide-react'
 import { Button } from '@/shared/ui/button'
 import { cn } from '@/shared/lib/utils'
+import { MegaImage } from '@/shared/components/mega-image'
 
 const navigationItems = [
   {
@@ -53,7 +54,7 @@ export function DesktopNavigation() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center bg-blue-800">
               <BookOpen className="w-4 h-4 text-primary-foreground" />
             </div>
             <Link href="/schedule" className="font-bold text-lg text-primary">
@@ -98,10 +99,21 @@ export function DesktopNavigation() {
                   {userRole === 'ADMIN' && 'Администратор'}
                 </p>
               </div>
-              <Link href="/profile">
-                <Button variant="outline" size="sm" className="p-2">
-                  <User className="w-4 h-4" />
-                </Button>
+              <Link href="/profile" className="block">
+                {session.user.image ? (
+                  <div className="w-8 h-8 relative">
+                    <MegaImage
+                      src={session.user.image}
+                      alt={session.user.name || 'Профиль'}
+                      className="object-cover hover:opacity-80 transition-opacity cursor-pointer"
+                      isRounded={true}
+                    />
+                  </div>
+                ) : (
+                  <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors cursor-pointer">
+                    <User className="w-4 h-4 text-gray-500" />
+                  </div>
+                )}
               </Link>
             </div>
 

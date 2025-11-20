@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/shared/ui/button'
+import { MegaImage } from '@/shared/components/mega-image'
 
 interface Course {
   id: string
@@ -27,10 +28,19 @@ interface Course {
   }
 }
 
+interface Booking {
+  id: string
+  scheduledAt: string
+  status: string
+  notes?: string
+  course: Course
+}
+
 export default function CoursesPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
   const [courses, setCourses] = useState<Course[]>([])
+  const [myBookings, setMyBookings] = useState<Booking[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
@@ -43,6 +53,9 @@ export default function CoursesPage() {
     }
 
     fetchCourses()
+    if (isStudent) {
+      fetchMyBookings()
+    }
   }, [session, status, router])
 
   const fetchCourses = async () => {
@@ -62,6 +75,19 @@ export default function CoursesPage() {
     }
   }
 
+  const fetchMyBookings = async () => {
+    try {
+      const response = await fetch('/api/bookings')
+      if (!response.ok) {
+        throw new Error('Не удалось загрузить записи')
+      }
+      const data = await response.json()
+      setMyBookings(data)
+    } catch (error) {
+      console.error('Ошибка загрузки записей:', error)
+    }
+  }
+
   const isTeacher = session?.user.role === 'TEACHER' || session?.user.role === 'ADMIN'
   const isStudent = session?.user.role === 'STUDENT' || session?.user.role === 'PARENT'
 
@@ -77,6 +103,14 @@ export default function CoursesPage() {
     return course.maxStudents - course._count.bookings
   }
 
+  const isEnrolled = (courseId: string) => {
+    return myBookings.some(
+      booking =>
+        booking.course.id === courseId &&
+        (booking.status === 'PENDING' || booking.status === 'CONFIRMED')
+    )
+  }
+
   if (status === 'loading' || loading) {
     return (
       <div className="container mx-auto px-4 py-8">
@@ -89,19 +123,21 @@ export default function CoursesPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
         <h1 className="text-3xl font-bold">Курсы</h1>
 
-        <div className="flex gap-4">
+        <div className="flex flex-col sm:flex-row gap-4">
           {isTeacher && (
-            <Link href="/courses/manage">
-              <Button className="bg-blue-600 hover:bg-blue-700">Управлять курсами</Button>
+            <Link href="/courses/manage" className="w-full sm:w-auto">
+              <Button className="w-full bg-blue-800 hover:bg-blue-900">Управлять курсами</Button>
             </Link>
           )}
 
           {isStudent && (
-            <Link href="/courses/enroll">
-              <Button className="bg-green-600 hover:bg-green-700">Записаться на курсы</Button>
+            <Link href="/courses/enroll" className="w-full sm:w-auto">
+              <Button className="w-full bg-green-600 hover:bg-green-700">
+                Записаться на курсы
+              </Button>
             </Link>
           )}
         </div>
@@ -118,7 +154,14 @@ export default function CoursesPage() {
         {courses.map(course => (
           <div key={course.id} className="bg-white shadow rounded-lg overflow-hidden">
             {course.imageUrl && (
-              <img src={course.imageUrl} alt={course.title} className="w-full h-48 object-cover" />
+              <div className="w-full h-48 relative">
+                <MegaImage
+                  src={course.imageUrl}
+                  alt={course.title}
+                  className="object-cover"
+                  isRounded={false}
+                />
+              </div>
             )}
 
             <div className="p-6">
@@ -137,7 +180,7 @@ export default function CoursesPage() {
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-500">Цена:</span>
-                  <span className="font-semibold">${course.price}</span>
+                  <span className="font-semibold">₽{course.price}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-500">Свободных мест:</span>
@@ -149,20 +192,24 @@ export default function CoursesPage() {
                 </div>
               </div>
 
-              <div className="flex gap-2">
-                {isStudent && (
-                  <Link href="/courses/enroll" className="flex-1">
-                    <Button
-                      className="w-full bg-green-600 hover:bg-green-700"
-                      disabled={getAvailableSlots(course) === 0}
-                    >
-                      {getAvailableSlots(course) > 0 ? 'Записаться' : 'Мест нет'}
+              <div className="flex flex-col sm:flex-row gap-2">
+                {isStudent &&
+                  (isEnrolled(course.id) ? (
+                    <Button disabled className="w-full bg-gray-400">
+                      Уже записаны
                     </Button>
-                  </Link>
-                )}
+                  ) : getAvailableSlots(course) > 0 ? (
+                    <Link href="/courses/enroll" className="w-full">
+                      <Button className="w-full bg-green-600 hover:bg-green-700">Записаться</Button>
+                    </Link>
+                  ) : (
+                    <Button disabled className="w-full bg-gray-400">
+                      Нет мест
+                    </Button>
+                  ))}
 
                 {isTeacher && canEditCourse(course) && (
-                  <Link href="/courses/manage" className="flex-1">
+                  <Link href="/courses/manage" className="w-full">
                     <Button variant="default" className="w-full">
                       Редактировать курс
                     </Button>
@@ -206,39 +253,6 @@ export default function CoursesPage() {
           </div>
         </div>
       )}
-
-      {/* Информация для ролей */}
-      <div className="mt-12 bg-blue-50 border border-blue-200 rounded-lg p-6">
-        <h2 className="text-lg font-semibold text-blue-900 mb-2">
-          {isTeacher ? 'Для преподавателей' : 'Для студентов'}
-        </h2>
-        <p className="text-blue-700 mb-4">
-          {isTeacher
-            ? 'Создавайте и управляйте своими курсами, отслеживайте записи студентов и обновляйте информацию о курсах.'
-            : 'Просматривайте доступные курсы, записывайтесь на интересующие занятия и управляйте своим расписанием.'}
-        </p>
-        <div className="flex gap-2">
-          {isTeacher ? (
-            <>
-              <Link href="/courses/manage">
-                <Button variant="default">Управление курсами</Button>
-              </Link>
-              <Link href="/schedule">
-                <Button variant="default">Посмотреть расписание</Button>
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link href="/courses/enroll">
-                <Button variant="default">Записаться на курсы</Button>
-              </Link>
-              <Link href="/schedule">
-                <Button variant="default">Мое расписание</Button>
-              </Link>
-            </>
-          )}
-        </div>
-      </div>
     </div>
   )
 }

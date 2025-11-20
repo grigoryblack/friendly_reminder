@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { Button } from '@/shared/ui/button'
 import { Input } from '@/shared/ui/input'
 import { Label } from '@/shared/ui/label'
+import { MegaImage } from '@/shared/components/mega-image'
 
 interface Course {
   id: string
@@ -252,7 +253,14 @@ export default function EnrollCoursesPage() {
         {courses.map(course => (
           <div key={course.id} className="bg-white shadow rounded-lg overflow-hidden">
             {course.imageUrl && (
-              <img src={course.imageUrl} alt={course.title} className="w-full h-48 object-cover" />
+              <div className="w-full h-48 relative">
+                <MegaImage
+                  src={course.imageUrl}
+                  alt={course.title}
+                  className="object-cover"
+                  isRounded={false}
+                />
+              </div>
             )}
 
             <div className="p-6">
@@ -271,7 +279,7 @@ export default function EnrollCoursesPage() {
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-500">Цена:</span>
-                  <span className="font-semibold">${course.price}</span>
+                  <span className="font-semibold">₽{course.price}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-500">Свободных мест:</span>
@@ -284,13 +292,13 @@ export default function EnrollCoursesPage() {
               </div>
 
               {isEnrolled(course.id) ? (
-                <Button disabled className="w-full">
+                <Button disabled className="w-full bg-gray-400">
                   Уже записаны
                 </Button>
               ) : getAvailableSlots(course) > 0 ? (
                 <Button
                   onClick={() => handleEnroll(course)}
-                  className="w-full bg-blue-600 hover:bg-blue-700"
+                  className="w-full bg-blue-800 hover:bg-blue-900"
                 >
                   Записаться
                 </Button>
@@ -355,19 +363,17 @@ export default function EnrollCoursesPage() {
                               : 'bg-blue-100 text-blue-800'
                       }`}
                     >
-                      {booking.status === 'CONFIRMED' && 'Подтверждено'}
-                      {booking.status === 'PENDING' && 'В ожидании'}
-                      {booking.status === 'CANCELLED' && 'Отменено'}
-                      {booking.status !== 'CONFIRMED' &&
-                        booking.status !== 'PENDING' &&
-                        booking.status !== 'CANCELLED' &&
-                        booking.status}
+                      {booking.status === 'CONFIRMED' ? 'Подтверждено' :
+                       booking.status === 'PENDING' ? 'В ожидании' :
+                       booking.status === 'CANCELLED' ? 'Отменено' :
+                       booking.status === 'COMPLETED' ? 'Завершено' :
+                       booking.status}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     {(booking.status === 'PENDING' || booking.status === 'CONFIRMED') && (
                       <Button
-                        variant="default"
+                        variant="secondary"
                         size="sm"
                         onClick={() => cancelBooking(booking)}
                         className="text-red-600 hover:text-red-800"

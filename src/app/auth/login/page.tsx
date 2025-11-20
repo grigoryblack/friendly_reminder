@@ -17,7 +17,7 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
-
+  const showAutoLogin = true
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
@@ -71,13 +71,12 @@ export default function LoginPage() {
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/10">
       <div className="container mx-auto px-4 py-8 flex items-center justify-center min-h-screen">
         <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-8 items-center">
-          
           {/* Left Side - Branding */}
           <div className="hidden lg:block space-y-8">
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center">
-                  <BookOpen className="w-6 h-6 text-primary-foreground" />
+                <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center bg-blue-800">
+                  <BookOpen className="w-6 h-6 text-primary-foreground bg-blue-800" />
                 </div>
                 <h1 className="text-3xl font-bold text-primary">Friendly Reminder</h1>
               </div>
@@ -93,27 +92,33 @@ export default function LoginPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-foreground">Для преподавателей</h3>
-                  <p className="text-sm text-muted-foreground">Создавайте курсы и отслеживайте прогресс студентов</p>
+                  <p className="text-sm text-muted-foreground">
+                    Создавайте курсы и отслеживайте прогресс студентов
+                  </p>
                 </div>
               </div>
-              
+
               <div className="flex items-start space-x-4">
                 <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
                   <GraduationCap className="w-5 h-5 text-primary" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-foreground">Для студентов</h3>
-                  <p className="text-sm text-muted-foreground">Записывайтесь на курсы и управляйте расписанием</p>
+                  <p className="text-sm text-muted-foreground">
+                    Записывайтесь на курсы и управляйте расписанием
+                  </p>
                 </div>
               </div>
-              
+
               <div className="flex items-start space-x-4">
                 <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
                   <Shield className="w-5 h-5 text-primary" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-foreground">Для администраторов</h3>
-                  <p className="text-sm text-muted-foreground">Полное управление платформой и контроль</p>
+                  <p className="text-sm text-muted-foreground">
+                    Полное управление платформой и контроль
+                  </p>
                 </div>
               </div>
             </div>
@@ -143,7 +148,7 @@ export default function LoginPage() {
                       type="email"
                       placeholder="Введите ваш email"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={e => setEmail(e.target.value)}
                       required
                     />
                   </div>
@@ -153,16 +158,16 @@ export default function LoginPage() {
                     <div className="relative">
                       <Input
                         id="password"
-                        type={showPassword ? "text" : "password"}
+                        type={showPassword ? 'text' : 'password'}
                         placeholder="Введите ваш пароль"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={e => setPassword(e.target.value)}
                         required
                         className="pr-10"
                       />
                       <Button
                         type="button"
-                        variant="default"
+                        variant="ghost"
                         size="sm"
                         className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                         onClick={() => setShowPassword(!showPassword)}
@@ -185,12 +190,7 @@ export default function LoginPage() {
                     </Link>
                   </div>
 
-                  <Button
-                    type="submit"
-                    disabled={isLoading}
-                    className="w-full"
-                    size="lg"
-                  >
+                  <Button type="submit" disabled={isLoading} className="w-full" size="lg">
                     {isLoading ? 'Вход...' : 'Войти'}
                   </Button>
 
@@ -210,43 +210,47 @@ export default function LoginPage() {
             </Card>
 
             {/* Quick Login Demo */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Тестовые аккаунты</CardTitle>
-                <CardDescription>
-                  Быстрый вход для тестирования ролей
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <Button
-                  variant="default"
-                  className="w-full justify-start"
-                  onClick={() => quickLogin('admin', 'admin@friendly-reminder.com', 'admin123')}
-                  disabled={isLoading}
-                >
-                  <Shield className="w-4 h-4 mr-2" />
-                  Войти как администратор
-                </Button>
-                <Button
-                  variant="default"
-                  className="w-full justify-start"
-                  onClick={() => quickLogin('teacher', 'teacher@friendly-reminder.com', 'teacher123')}
-                  disabled={isLoading}
-                >
-                  <Users className="w-4 h-4 mr-2" />
-                  Войти как преподаватель
-                </Button>
-                <Button
-                  variant="default"
-                  className="w-full justify-start"
-                  onClick={() => quickLogin('student', 'student@friendly-reminder.com', 'student123')}
-                  disabled={isLoading}
-                >
-                  <GraduationCap className="w-4 h-4 mr-2" />
-                  Войти как студент
-                </Button>
-              </CardContent>
-            </Card>
+            {showAutoLogin && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Тестовые аккаунты</CardTitle>
+                  <CardDescription>Быстрый вход для тестирования ролей</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <Button
+                    variant="default"
+                    className="w-full justify-start"
+                    onClick={() => quickLogin('admin', 'admin@friendly-reminder.com', 'admin123')}
+                    disabled={isLoading}
+                  >
+                    <Shield className="w-4 h-4 mr-2" />
+                    Войти как администратор
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    className="w-full justify-start"
+                    onClick={() =>
+                      quickLogin('teacher', 'teacher@friendly-reminder.com', 'teacher123')
+                    }
+                    disabled={isLoading}
+                  >
+                    <Users className="w-4 h-4 mr-2" />
+                    Войти как преподаватель
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start"
+                    onClick={() =>
+                      quickLogin('student', 'student@friendly-reminder.com', 'student123')
+                    }
+                    disabled={isLoading}
+                  >
+                    <GraduationCap className="w-4 h-4 mr-2" />
+                    Войти как студент
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
           </div>
         </div>
       </div>

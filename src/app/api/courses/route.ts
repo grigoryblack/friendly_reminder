@@ -39,7 +39,13 @@ export async function GET(request: NextRequest) {
         },
         _count: {
           select: {
-            bookings: true
+            bookings: {
+              where: {
+                status: {
+                  in: ['PENDING', 'CONFIRMED']
+                }
+              }
+            }
           }
         }
       },

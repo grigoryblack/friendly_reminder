@@ -15,7 +15,7 @@ export default function RegisterPage() {
     name: '',
     email: '',
     password: '',
-    role: 'STUDENT' as 'STUDENT' | 'PARENT' | 'TEACHER'
+    role: 'STUDENT' as 'STUDENT' | 'PARENT' | 'TEACHER',
   })
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -41,15 +41,15 @@ export default function RegisterPage() {
       const data = await response.json()
 
       if (response.ok) {
-        setSuccess('Account created successfully! You can now sign in.')
+        setSuccess('Аккаунт успешно создан! Теперь вы можете войти.')
         setTimeout(() => {
           router.push('/auth/login')
         }, 2000)
       } else {
-        setError(data.error || 'Registration failed')
+        setError(data.error || 'Ошибка регистрации')
       }
     } catch (error) {
-      setError('An error occurred. Please try again.')
+      setError('Произошла ошибка. Попробуйте снова.')
     } finally {
       setIsLoading(false)
     }
@@ -71,13 +71,13 @@ export default function RegisterPage() {
   const getRoleDescription = (role: string) => {
     switch (role) {
       case 'STUDENT':
-        return 'Access courses, manage your learning schedule'
+        return 'Доступ к курсам и расписанию обучения'
       case 'PARENT':
-        return 'Monitor your child\'s progress and activities'
+        return 'Отслеживайте прогресс и занятия ребёнка'
       case 'TEACHER':
-        return 'Create courses, manage students, track progress'
+        return 'Создавайте курсы, управляйте учениками, отслеживайте результаты'
       default:
-        return 'Choose your role to get started'
+        return 'Выберите роль, чтобы начать'
     }
   }
 
@@ -85,18 +85,17 @@ export default function RegisterPage() {
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/10">
       <div className="container mx-auto px-4 py-8 flex items-center justify-center min-h-screen">
         <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-8 items-center">
-          
-          {/* Left Side - Branding */}
+          {/* Левая сторона - Брендинг */}
           <div className="hidden lg:block space-y-8">
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center">
-                  <BookOpen className="w-6 h-6 text-primary-foreground" />
+                <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center bg-blue-800">
+                  <BookOpen className="w-6 h-6 text-primary-foreground bg-blue-800" />
                 </div>
                 <h1 className="text-3xl font-bold text-primary">Friendly Reminder</h1>
               </div>
               <p className="text-xl text-muted-foreground">
-                Join our learning community today
+                Присоединяйтесь к нашему обучающему сообществу
               </p>
             </div>
 
@@ -106,40 +105,46 @@ export default function RegisterPage() {
                   <CheckCircle className="w-5 h-5 text-green-600" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-foreground">Easy Registration</h3>
-                  <p className="text-sm text-muted-foreground">Quick setup process with role-based access</p>
+                  <h3 className="font-semibold text-foreground">Лёгкая регистрация</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Быстрый процесс с доступом согласно роли
+                  </p>
                 </div>
               </div>
-              
+
               <div className="flex items-start space-x-4">
                 <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <Users className="w-5 h-5 text-blue-600" />
+                  <Users className="w-5 h-5 text-blue-800" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-foreground">Community Driven</h3>
-                  <p className="text-sm text-muted-foreground">Connect with teachers and students worldwide</p>
+                  <h3 className="font-semibold text-foreground">Сообщество</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Общайтесь с учителями и учениками по всему миру
+                  </p>
                 </div>
               </div>
-              
+
               <div className="flex items-start space-x-4">
                 <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
                   <BookOpen className="w-5 h-5 text-purple-600" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-foreground">Rich Learning Experience</h3>
-                  <p className="text-sm text-muted-foreground">Interactive courses and personalized schedules</p>
+                  <h3 className="font-semibold text-foreground">Богатый опыт обучения</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Интерактивные курсы и персональное расписание
+                  </p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right Side - Registration Form */}
+          {/* Правая сторона - Форма регистрации */}
           <div className="w-full max-w-md mx-auto space-y-6">
             <Card>
               <CardHeader className="space-y-1">
-                <CardTitle className="text-2xl font-bold text-center">Create Account</CardTitle>
+                <CardTitle className="text-2xl font-bold text-center">Создать аккаунт</CardTitle>
                 <CardDescription className="text-center">
-                  Choose your role and get started
+                  Выберите роль и начните работу
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -158,45 +163,45 @@ export default function RegisterPage() {
                   )}
 
                   <div className="space-y-2">
-                    <Label htmlFor="name">Full Name</Label>
+                    <Label htmlFor="name">Полное имя</Label>
                     <Input
                       id="name"
                       type="text"
-                      placeholder="Enter your full name"
+                      placeholder="Введите ваше имя"
                       value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      onChange={e => setFormData({ ...formData, name: e.target.value })}
                       required
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email Address</Label>
+                    <Label htmlFor="email">Email</Label>
                     <Input
                       id="email"
                       type="email"
-                      placeholder="Enter your email"
+                      placeholder="Введите ваш email"
                       value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      onChange={e => setFormData({ ...formData, email: e.target.value })}
                       required
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="password">Password</Label>
+                    <Label htmlFor="password">Пароль</Label>
                     <div className="relative">
                       <Input
                         id="password"
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Create a password (min. 6 characters)"
+                        type={showPassword ? 'text' : 'password'}
+                        placeholder="Создайте пароль (мин. 6 символов)"
                         value={formData.password}
-                        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                        onChange={e => setFormData({ ...formData, password: e.target.value })}
                         required
                         minLength={6}
                         className="pr-10"
                       />
                       <Button
                         type="button"
-                        variant="default"
+                        variant="ghost"
                         size="sm"
                         className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                         onClick={() => setShowPassword(!showPassword)}
@@ -211,15 +216,15 @@ export default function RegisterPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="role">I am a...</Label>
+                    <Label htmlFor="role">Роль</Label>
                     <Select
                       id="role"
                       value={formData.role}
-                      onChange={(e) => setFormData({ ...formData, role: e.target.value as any })}
+                      onChange={e => setFormData({ ...formData, role: e.target.value as any })}
                     >
-                      <option value="STUDENT">Student</option>
-                      <option value="PARENT">Parent</option>
-                      <option value="TEACHER">Teacher</option>
+                      <option value="STUDENT">Ученик</option>
+                      <option value="PARENT">Родитель</option>
+                      <option value="TEACHER">Учитель</option>
                     </Select>
                     <div className="flex items-center space-x-2 text-sm text-muted-foreground mt-2">
                       {getRoleIcon(formData.role)}
@@ -227,23 +232,18 @@ export default function RegisterPage() {
                     </div>
                   </div>
 
-                  <Button
-                    type="submit"
-                    disabled={isLoading}
-                    className="w-full"
-                    size="lg"
-                  >
-                    {isLoading ? 'Creating account...' : 'Create Account'}
+                  <Button type="submit" disabled={isLoading} className="w-full" size="lg">
+                    {isLoading ? 'Создание аккаунта...' : 'Создать аккаунт'}
                   </Button>
 
                   <div className="text-center">
                     <span className="text-sm text-muted-foreground">
-                      Already have an account?{' '}
+                      Уже есть аккаунт?{' '}
                       <Link
                         href="/auth/login"
                         className="text-primary hover:text-primary/80 underline-offset-4 hover:underline font-medium"
                       >
-                        Sign in
+                        Войти
                       </Link>
                     </span>
                   </div>

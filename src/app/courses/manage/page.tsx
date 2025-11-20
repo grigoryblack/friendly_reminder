@@ -273,10 +273,12 @@ export default function ManageCoursesPage() {
               </div>
 
               <div className="flex gap-2">
-                <Button type="submit">{editingCourse ? 'Обновить курс' : 'Создать курс'}</Button>
+                <Button variant={editingCourse ? 'outline' : 'default'} type="submit">
+                  {editingCourse ? 'Обновить курс' : 'Создать курс'}
+                </Button>
                 <Button
                   type="button"
-                  variant="default"
+                  variant={!editingCourse ? 'outline' : 'default'}
                   onClick={() => {
                     setShowCreateForm(false)
                     setEditingCourse(null)
@@ -292,92 +294,97 @@ export default function ManageCoursesPage() {
 
         {/* Courses List */}
         <div className="bg-white shadow rounded-lg overflow-hidden">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Изображение
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Курс
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Цена и продолжительность
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Записи
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Статус
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Действия
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {courses.map(course => (
-                <tr key={course.id}>
-                  <td className="px-6 py-4">
-                    {course.imageUrl ? (
-                      <MegaImage
-                        src={course.imageUrl}
-                        alt={course.title}
-                        width={64}
-                        height={64}
-                        className="object-cover"
-                      />
-                    ) : (
-                      <div className="w-16 h-16 bg-gray-200 flex items-center justify-center">
-                        <span className="text-gray-400 text-xs">Нет фото</span>
-                      </div>
-                    )}
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="text-sm font-medium text-gray-900">{course.title}</div>
-                    <div className="text-sm text-gray-500">{course.description}</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">${course.price}</div>
-                    <div className="text-sm text-gray-500">{course.duration} мин</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {course._count.bookings} / {course.maxStudents}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span
-                      className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                        course.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                      }`}
-                    >
-                      {course.isActive ? 'Активен' : 'Неактивен'}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                    <Button variant="default" size="sm" onClick={() => handleEdit(course)}>
-                      Редактировать
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => toggleActive(course)}
-                      className={course.isActive ? 'text-red-600' : 'text-green-600'}
-                    >
-                      {course.isActive ? 'Деактивировать' : 'Активировать'}
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleDelete(course.id)}
-                      className="bg-red-600 hover:bg-red-700 text-white"
-                    >
-                      Удалить
-                    </Button>
-                  </td>
+          <div className="w-full overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200 text-sm">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Изображение
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Курс
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Цена и продолжительность
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Записи
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Статус
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Действия
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {courses.map(course => (
+                  <tr key={course.id}>
+                    <td className="px-6 py-4">
+                      {course.imageUrl ? (
+                        <div className="w-16 h-16 relative">
+                          <MegaImage
+                            src={course.imageUrl}
+                            alt={course.title}
+                            className="object-cover"
+                            isRounded={false}
+                          />
+                        </div>
+                      ) : (
+                        <div className="w-16 h-16 bg-gray-200 flex items-center justify-center">
+                          <span className="text-gray-400 text-xs">Нет фото</span>
+                        </div>
+                      )}
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="text-sm font-medium text-gray-900">{course.title}</div>
+                      <div className="text-sm text-gray-500">{course.description}</div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-900">${course.price}</div>
+                      <div className="text-sm text-gray-500">{course.duration} мин</div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {course._count.bookings} / {course.maxStudents}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span
+                        className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                          course.isActive
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-red-100 text-red-800'
+                        }`}
+                      >
+                        {course.isActive ? 'Активен' : 'Неактивен'}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                      <Button variant="default" size="sm" onClick={() => handleEdit(course)}>
+                        Редактировать
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => toggleActive(course)}
+                        className={course.isActive ? 'text-red-600' : 'text-green-600'}
+                      >
+                        {course.isActive ? 'Деактивировать' : 'Активировать'}
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleDelete(course.id)}
+                        className="bg-red-600 hover:bg-red-700 text-white"
+                      >
+                        Удалить
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
           {courses.length === 0 && (
             <div className="text-center py-8">

@@ -32,10 +32,10 @@ export default function ForgotPasswordPage() {
         setIsSubmitted(true)
       } else {
         const data = await response.json()
-        setError(data.error || 'Failed to send reset email')
+        setError(data.error || 'Не удалось отправить письмо для сброса пароля')
       }
     } catch (error) {
-      setError('An error occurred. Please try again.')
+      setError('Произошла ошибка. Пожалуйста, попробуйте снова.')
     } finally {
       setIsLoading(false)
     }
@@ -51,14 +51,14 @@ export default function ForgotPasswordPage() {
                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
                   <CheckCircle className="w-8 h-8 text-green-600" />
                 </div>
-                <CardTitle className="text-2xl font-bold">Check your email</CardTitle>
+                <CardTitle className="text-2xl font-bold">Проверьте почту</CardTitle>
                 <CardDescription>
-                  We've sent a password reset link to <strong>{email}</strong>
+                  Мы отправили ссылку для сброса пароля на <strong>{email}</strong>
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="text-center text-sm text-muted-foreground">
-                  <p>Didn't receive the email? Check your spam folder or</p>
+                  <p>Не получили письмо? Проверьте папку "Спам" или</p>
                   <Button
                     variant="link"
                     className="p-0 h-auto font-normal"
@@ -67,10 +67,10 @@ export default function ForgotPasswordPage() {
                       setEmail('')
                     }}
                   >
-                    try again with a different email
+                    попробуйте с другим email
                   </Button>
                 </div>
-                
+
                 <div className="pt-4">
                   <Link href="/auth/login">
                     <Button variant="default" className="w-full">
@@ -91,51 +91,56 @@ export default function ForgotPasswordPage() {
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/10">
       <div className="container mx-auto px-4 py-8 flex items-center justify-center min-h-screen">
         <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-8 items-center">
-          
-          {/* Left Side - Branding */}
+          {/* Левая часть - Брендинг */}
           <div className="hidden lg:block space-y-8">
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center">
-                  <BookOpen className="w-6 h-6 text-primary-foreground" />
+                <div className="w-12 h-12 bg-blue-800 rounded-xl flex items-center justify-center">
+                  <BookOpen className="w-6 h-6 text-white" />
                 </div>
                 <h1 className="text-3xl font-bold text-primary">Friendly Reminder</h1>
               </div>
               <p className="text-xl text-muted-foreground">
-                Don't worry, we'll help you get back in
+                Не переживайте, мы поможем вам восстановить доступ
               </p>
             </div>
 
             <div className="space-y-6">
               <div className="flex items-start space-x-4">
                 <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <Mail className="w-5 h-5 text-blue-600" />
+                  <Mail className="w-5 h-5 text-blue-800" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-foreground">Secure Reset</h3>
-                  <p className="text-sm text-muted-foreground">We'll send you a secure link to reset your password</p>
+                  <h3 className="font-semibold text-foreground">Безопасное восстановление</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Мы отправим вам защищённую ссылку для сброса пароля
+                  </p>
                 </div>
               </div>
-              
+
               <div className="flex items-start space-x-4">
                 <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
                   <CheckCircle className="w-5 h-5 text-green-600" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-foreground">Quick Process</h3>
-                  <p className="text-sm text-muted-foreground">Reset your password in just a few clicks</p>
+                  <h3 className="font-semibold text-foreground">Быстро и удобно</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Сбросьте пароль всего в несколько кликов
+                  </p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right Side - Reset Form */}
+          {/* Правая часть - Форма */}
           <div className="w-full max-w-md mx-auto">
             <Card>
               <CardHeader className="space-y-1">
-                <CardTitle className="text-2xl font-bold text-center">Reset Password</CardTitle>
+                <CardTitle className="text-2xl font-bold text-center">
+                  Восстановление пароля
+                </CardTitle>
                 <CardDescription className="text-center">
-                  Enter your email and we'll send you a reset link
+                  Введите email, и мы отправим ссылку для сброса пароля
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -147,14 +152,14 @@ export default function ForgotPasswordPage() {
                   )}
 
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email Address</Label>
+                    <Label htmlFor="email">Электронная почта</Label>
                     <div className="relative">
                       <Input
                         id="email"
                         type="email"
-                        placeholder="Enter your email address"
+                        placeholder="Введите ваш email"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={e => setEmail(e.target.value)}
                         required
                         className="pl-10"
                       />
@@ -162,13 +167,8 @@ export default function ForgotPasswordPage() {
                     </div>
                   </div>
 
-                  <Button
-                    type="submit"
-                    disabled={isLoading}
-                    className="w-full"
-                    size="lg"
-                  >
-                    {isLoading ? 'Sending...' : 'Send Reset Link'}
+                  <Button type="submit" disabled={isLoading} className="w-full" size="lg">
+                    {isLoading ? 'Отправка...' : 'Отправить ссылку'}
                   </Button>
 
                   <div className="text-center">
@@ -177,7 +177,7 @@ export default function ForgotPasswordPage() {
                       className="text-sm text-muted-foreground hover:text-primary inline-flex items-center"
                     >
                       <ArrowLeft className="w-4 h-4 mr-1" />
-                      Back to login
+                      Назад к входу
                     </Link>
                   </div>
                 </form>
