@@ -89,8 +89,8 @@ export default function RegisterPage() {
           <div className="hidden lg:block space-y-8">
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center bg-blue-800">
-                  <BookOpen className="w-6 h-6 text-primary-foreground bg-blue-800" />
+                <div className="w-12 h-12 bg-blue-800 rounded-xl flex items-center justify-center">
+                  <BookOpen className="w-6 h-6 text-white" />
                 </div>
                 <h1 className="text-3xl font-bold text-primary">Friendly Reminder</h1>
               </div>

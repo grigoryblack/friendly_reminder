@@ -54,8 +54,8 @@ export function DesktopNavigation() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center bg-blue-800">
-              <BookOpen className="w-4 h-4 text-primary-foreground" />
+            <div className="w-8 h-8 bg-blue-800 rounded-lg flex items-center justify-center">
+              <BookOpen className="w-4 h-4 text-white" />
             </div>
             <Link href="/schedule" className="font-bold text-lg text-primary">
               Friendly Reminder

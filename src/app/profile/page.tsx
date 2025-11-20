@@ -8,6 +8,8 @@ import { Button } from '@/shared/ui/button'
 import { Input } from '@/shared/ui/input'
 import { Label } from '@/shared/ui/label'
 import { ImageUpload } from '@/shared/components/image-upload'
+import { PaymentMethodDialog } from '@/shared/components/payment-method-dialog'
+import { Loader2 } from 'lucide-react'
 
 export default function ProfilePage() {
   const { data: session, status, update } = useSession()
@@ -70,8 +72,8 @@ export default function ProfilePage() {
   if (status === 'loading') {
     return (
       <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-center items-center min-h-[400px]">
-          <div className="text-lg">Loading...</div>
+        <div className="flex justify-center items-center min-h-screen">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
         </div>
       </div>
     )
@@ -171,12 +173,13 @@ export default function ProfilePage() {
 
           <div className="mt-8 pt-6 border-t">
             <h3 className="text-lg font-semibold mb-4">Доступные действия</h3>
-            <div className="space-y-2">
+            <div className="flex flex-col md:flex-row gap-2">
               <Link href="/reset-password">
                 <Button variant="default" className="w-full md:w-auto">
                   Изменить пароль
                 </Button>
               </Link>
+              <PaymentMethodDialog />
             </div>
           </div>
         </div>

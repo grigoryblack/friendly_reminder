@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { Button } from '@/shared/ui/button'
 import { Input } from '@/shared/ui/input'
 import { Label } from '@/shared/ui/label'
+import { Loader2 } from 'lucide-react'
 
 function ResetPasswordForm() {
   const [currentPassword, setCurrentPassword] = useState('')
@@ -19,7 +20,7 @@ function ResetPasswordForm() {
   const searchParams = useSearchParams()
   const { data: session, status } = useSession()
   const token = searchParams.get('token')
-  
+
   // Определяем режим: сброс по токену или смена пароля авторизованным пользователем
   const isTokenReset = !!token
   const isLoggedInUser = !isTokenReset && session?.user
@@ -58,7 +59,7 @@ function ResetPasswordForm() {
 
     try {
       let response
-      
+
       if (isTokenReset) {
         // Сброс пароля по токену
         response = await fetch('/api/reset-password', {
@@ -111,8 +112,18 @@ function ResetPasswordForm() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-md text-center">
           <div className="text-green-600">
-            <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            <svg
+              className="mx-auto h-12 w-12"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 13l4 4L19 7"
+              />
             </svg>
           </div>
           <h2 className="text-2xl font-bold text-gray-900">Password Reset Successful!</h2>
@@ -130,10 +141,9 @@ function ResetPasswordForm() {
             {isTokenReset ? 'Reset Password' : 'Change Password'}
           </h2>
           <p className="mt-2 text-center text-gray-600">
-            {isTokenReset 
-              ? 'Enter your new password below' 
-              : 'Enter your current password and new password'
-            }
+            {isTokenReset
+              ? 'Enter your new password below'
+              : 'Enter your current password and new password'}
           </p>
         </div>
 
@@ -151,7 +161,7 @@ function ResetPasswordForm() {
                 id="currentPassword"
                 type="password"
                 value={currentPassword}
-                onChange={(e) => setCurrentPassword(e.target.value)}
+                onChange={e => setCurrentPassword(e.target.value)}
                 required
                 className="mt-1"
                 placeholder="Enter current password"
@@ -165,7 +175,7 @@ function ResetPasswordForm() {
               id="newPassword"
               type="password"
               value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
+              onChange={e => setNewPassword(e.target.value)}
               required
               minLength={6}
               className="mt-1"
@@ -179,7 +189,7 @@ function ResetPasswordForm() {
               id="confirmPassword"
               type="password"
               value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={e => setConfirmPassword(e.target.value)}
               required
               minLength={6}
               className="mt-1"
@@ -187,20 +197,19 @@ function ResetPasswordForm() {
             />
           </div>
 
-          <Button
-            type="submit"
-            disabled={isLoading}
-            className="w-full"
-          >
-            {isLoading 
-              ? (isTokenReset ? 'Resetting...' : 'Changing...') 
-              : (isTokenReset ? 'Reset Password' : 'Change Password')
-            }
+          <Button type="submit" disabled={isLoading} className="w-full">
+            {isLoading
+              ? isTokenReset
+                ? 'Resetting...'
+                : 'Changing...'
+              : isTokenReset
+                ? 'Reset Password'
+                : 'Change Password'}
           </Button>
 
           <div className="text-center">
             <Link
-              href={isLoggedInUser ? "/profile" : "/auth/login"}
+              href={isLoggedInUser ? '/profile' : '/auth/login'}
               className="text-sm text-blue-600 hover:text-blue-500"
             >
               {isLoggedInUser ? 'Back to Profile' : 'Back to Login'}
@@ -214,14 +223,15 @@ function ResetPasswordForm() {
 
 export default function ResetPasswordPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+          <div className="flex justify-center items-center min-h-screen">
+            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+          </div>
         </div>
-      </div>
-    }>
+      }
+    >
       <ResetPasswordForm />
     </Suspense>
   )
