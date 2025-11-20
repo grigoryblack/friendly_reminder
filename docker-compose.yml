@@ -42,7 +42,7 @@ services:
       - SMTP_FROM=${SMTP_FROM}
       - MEGA_EMAIL=${MEGA_EMAIL}
       - MEGA_PASSWORD=${MEGA_PASSWORD}
-      - RUN_SEED=false
+      - RUN_SEED=${RUN_SEED:-true}
     ports:
       - "3000:3000"
     depends_on:

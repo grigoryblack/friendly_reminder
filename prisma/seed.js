@@ -1,21 +1,22 @@
 const { PrismaClient, Role } = require('@prisma/client');
-const bcrypt = require('bcryptjs');
 
 const prisma = new PrismaClient();
 
 async function main() {
   console.log('🌱 Seeding database...');
 
-  // Create admin user
-  const hashedPassword = await bcrypt.hash('admin123', 12);
+  // Pre-hashed passwords (bcrypt hash of 'admin123', 'teacher123', 'student123')
+  const adminPassword = '$2a$12$bFZr3ld/UwWHf5V.Swt1NOFZABL4d7Y5WWBRLM3Y1.Q8rlPEG8Smy'; // admin123
+  const teacherPassword = '$2a$12$aI1sn9JgDcFpp/ecA1UcLuFnTdraYMwYDVKjR0Y8fA0FH/VMIxIjK'; // teacher123  
+  const studentPassword = '$2a$12$KxQjEBA3x4/EcpE00blW5uONriNjEmuUmFOm4LEXWIyCyZerX5qp.'; // student123
   
   const admin = await prisma.user.upsert({
-    where: { email: 'admin@example.com' },
+    where: { email: 'admin@friendly-reminder.com' },
     update: {},
     create: {
-      email: 'admin@example.com',
+      email: 'admin@friendly-reminder.com',
       name: 'Admin User',
-      password: hashedPassword,
+      password: adminPassword,
       role: Role.ADMIN,
       emailVerified: new Date(),
     },
@@ -24,13 +25,12 @@ async function main() {
   console.log('✅ Created admin user:', admin.email);
 
   // Create teacher user
-  const teacherPassword = await bcrypt.hash('teacher123', 12);
   
   const teacher = await prisma.user.upsert({
-    where: { email: 'teacher@example.com' },
+    where: { email: 'teacher@friendly-reminder.com' },
     update: {},
     create: {
-      email: 'teacher@example.com',
+      email: 'teacher@friendly-reminder.com',
       name: 'Teacher User',
       password: teacherPassword,
       role: Role.TEACHER,
@@ -41,13 +41,11 @@ async function main() {
   console.log('✅ Created teacher user:', teacher.email);
 
   // Create student user
-  const studentPassword = await bcrypt.hash('student123', 12);
-  
   const student = await prisma.user.upsert({
-    where: { email: 'student@example.com' },
+    where: { email: 'student@friendly-reminder.com' },
     update: {},
     create: {
-      email: 'student@example.com',
+      email: 'student@friendly-reminder.com',
       name: 'Student User',
       password: studentPassword,
       role: Role.STUDENT,
