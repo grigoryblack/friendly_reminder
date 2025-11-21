@@ -279,7 +279,7 @@ export default function EnrollCoursesPage() {
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-500">Цена:</span>
-                  <span className="font-semibold">₽{course.price}</span>
+                  <span className="font-semibold">₽ {course.price}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-500">Свободных мест:</span>

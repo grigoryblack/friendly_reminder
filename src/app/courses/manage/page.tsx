@@ -66,7 +66,7 @@ export default function ManageCoursesPage() {
         return
       }
       const teacherData = await teacherResponse.json()
-      
+
       // Fetch only this teacher's courses
       const response = await fetch(`/api/courses?includeInactive=true&teacherId=${teacherData.id}`)
       if (response.ok) {
@@ -354,7 +354,7 @@ export default function ManageCoursesPage() {
                       <div className="text-sm text-gray-500">{course.description}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">${course.price}</div>
+                      <div className="text-sm text-gray-900">₽ {course.price}</div>
                       <div className="text-sm text-gray-500">{course.duration} мин</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -381,7 +381,7 @@ export default function ManageCoursesPage() {
                         onClick={() => toggleActive(course)}
                         className={course.isActive ? 'text-red-600' : 'text-green-600'}
                       >
-                        {course.isActive ? 'Деактивировать' : 'Активировать'}
+                        {course.isActive ? 'Скрыть' : 'Сделать доступным'}
                       </Button>
                       <Button
                         variant="outline"

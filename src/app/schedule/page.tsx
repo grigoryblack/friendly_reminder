@@ -429,7 +429,7 @@ export default function SchedulePage() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">{booking.course.duration} мин</div>
-                          <div className="text-sm text-gray-500">₽{booking.course.price}</div>
+                          <div className="text-sm text-gray-500">₽ {booking.course.price}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span
