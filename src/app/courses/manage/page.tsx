@@ -82,11 +82,7 @@ export default function ManageCoursesPage() {
   }
 
   const handleImageUpload = (url: string) => {
-    setFormData(prev => {
-      const updated = { ...prev, imageUrl: url }
-
-      return updated
-    })
+    setFormData(prev => ({ ...prev, imageUrl: url }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {

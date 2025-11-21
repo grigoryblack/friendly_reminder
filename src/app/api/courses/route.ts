@@ -78,15 +78,26 @@ export async function POST(request: NextRequest) {
       teacherId = body.teacherId || session.user.id
     } else {
       // Teachers can only create courses for themselves
-      const teacher = await prisma.teacher.findUnique({
+      let teacher = await prisma.teacher.findUnique({
         where: { userId: session.user.id }
       })
+      
+      // Auto-create teacher profile if it doesn't exist
       if (!teacher) {
-        return NextResponse.json(
-          { error: 'Teacher profile not found' },
-          { status: 400 }
-        )
+        console.log('Teacher profile not found, creating one for user:', session.user.id)
+        teacher = await prisma.teacher.create({
+          data: {
+            userId: session.user.id,
+            bio: null,
+            experience: null,
+            specialties: [],
+            hourlyRate: null,
+            avatarUrl: session.user.image || null,
+          }
+        })
+        console.log('Created teacher profile:', teacher.id)
       }
+      
       teacherId = teacher.id
     }
 

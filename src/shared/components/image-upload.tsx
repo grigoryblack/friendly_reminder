@@ -90,9 +90,11 @@ export function ImageUpload({
       })
 
       const data = await response.json()
+      console.log('Upload response:', { ok: response.ok, data })
 
       if (response.ok) {
         const uploadedUrl = data.url
+        console.log('Image uploaded successfully to:', uploadedUrl)
 
         // If autoSaveToProfile is enabled, save to user profile
         if (autoSaveToProfile) {
@@ -128,6 +130,7 @@ export function ImageUpload({
       setPreviewUrl(currentImageUrl || null) // Reset preview on error
     } finally {
       setUploading(false)
+      console.log('Image upload finished')
     }
   }
 
@@ -147,7 +150,7 @@ export function ImageUpload({
             <MegaImage
               src={previewUrl}
               alt="Image preview"
-              className={`${isRounded ? 'object-cover' : 'object-contain'} border-4 border-gray-200 ${isRounded ? 'rounded-full' : ''}`}
+              className="object-cover border-4 border-gray-200"
               isRounded={isRounded}
             />
           ) : (
