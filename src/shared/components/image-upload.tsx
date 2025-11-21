@@ -18,16 +18,16 @@ interface ImageUploadProps {
   height?: number
 }
 
-export function ImageUpload({ 
-  onUploadSuccess, 
-  onUploadError, 
+export function ImageUpload({
+  onUploadSuccess,
+  onUploadError,
   currentImageUrl,
-  className = "",
+  className = '',
   autoSaveToProfile = false,
-  buttonText = "Изменить аватар",
+  buttonText = 'Изменить аватар',
   isRounded = true,
   width = 128,
-  height = 128
+  height = 128,
 }: ImageUploadProps) {
   const { update } = useSession()
   const [uploading, setUploading] = useState(false)
@@ -68,7 +68,7 @@ export function ImageUpload({
 
     // Create preview
     const reader = new FileReader()
-    reader.onload = (e) => {
+    reader.onload = e => {
       setPreviewUrl(e.target?.result as string)
     }
     reader.readAsDataURL(file)
@@ -93,7 +93,7 @@ export function ImageUpload({
 
       if (response.ok) {
         const uploadedUrl = data.url
-        
+
         // If autoSaveToProfile is enabled, save to user profile
         if (autoSaveToProfile) {
           try {
@@ -117,7 +117,7 @@ export function ImageUpload({
             console.error('Error saving avatar to profile:', profileError)
           }
         }
-        
+
         onUploadSuccess?.(uploadedUrl)
       } else {
         onUploadError?.(data.error || 'Upload failed')
@@ -151,18 +151,30 @@ export function ImageUpload({
               isRounded={isRounded}
             />
           ) : (
-            <div 
+            <div
               className={`bg-gray-200 flex items-center justify-center border-4 border-gray-200 ${isRounded ? 'rounded-full' : ''}`}
               style={{ width: `${width}px`, height: `${height}px` }}
             >
-              <svg className="w-12 h-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              <svg
+                className="w-12 h-12 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
               </svg>
             </div>
           )}
-          
+
           {uploading && (
-            <div className={`absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center ${isRounded ? 'rounded-full' : ''}`}>
+            <div
+              className={`absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center ${isRounded ? 'rounded-full' : ''}`}
+            >
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
             </div>
           )}
@@ -191,8 +203,10 @@ export function ImageUpload({
 
       {/* Upload Info */}
       <div className="text-xs text-gray-500 text-center">
-        <p>Supported formats: JPEG, PNG, GIF, WebP</p>
-        <p>Maximum size: 5MB</p>
+        <p>
+          Поддерживаемые форматы: <br /> JPEG, PNG, GIF, WebP
+        </p>
+        <p>Максимальный размер файла: 5MB</p>
       </div>
     </div>
   )

@@ -50,7 +50,7 @@ SMTP_PASSWORD=<ваш_gmail_app_password>
 SMTP_FROM=noreply@friendly-reminder.com
 
 MEGA_EMAIL=drz2002@yandex.ru
-MEGA_PASSWORD=grigory2002
+MEGA_PASSWORD=example228
 
 NODE_ENV=production
 RUN_SEED=true  # Автоматически создаст тестовые аккаунты

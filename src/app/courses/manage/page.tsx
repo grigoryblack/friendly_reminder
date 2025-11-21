@@ -82,7 +82,11 @@ export default function ManageCoursesPage() {
   }
 
   const handleImageUpload = (url: string) => {
-    setFormData(prev => ({ ...prev, imageUrl: url }))
+    setFormData(prev => {
+      const updated = { ...prev, imageUrl: url }
+
+      return updated
+    })
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -178,17 +182,19 @@ export default function ManageCoursesPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-6xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-8 gap-4">
           <h1 className="text-3xl font-bold">Управление курсами</h1>
-          <Button
-            onClick={() => {
-              setShowCreateForm(true)
-              setEditingCourse(null)
-              resetForm()
-            }}
-          >
-            Создать курс
-          </Button>
+          <div className="space-x-2">
+            <Button
+              onClick={() => {
+                setShowCreateForm(true)
+                setEditingCourse(null)
+                resetForm()
+              }}
+            >
+              Создать курс
+            </Button>
+          </div>
         </div>
 
         {/* Create/Edit Form */}
@@ -388,7 +394,9 @@ export default function ManageCoursesPage() {
 
           {courses.length === 0 && (
             <div className="text-center py-8">
-              <p className="text-gray-500">Курсы не найдены. Создайте свой первый курс!</p>
+              <p className="text-gray-500">
+                Курсы не найдены. <br /> Создайте свой первый курс!
+              </p>
             </div>
           )}
         </div>

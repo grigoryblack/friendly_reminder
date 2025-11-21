@@ -129,11 +129,11 @@ export default function CoursesPage() {
         <div className="flex flex-col sm:flex-row gap-4">
           {isTeacher && (
             <Link href="/courses/manage" className="w-full sm:w-auto">
-              <Button className="w-full bg-blue-800 hover:bg-blue-900">Управлять курсами</Button>
+              <Button className="bg-blue-800 hover:bg-blue-900">Управлять курсами</Button>
             </Link>
           )}
 
-          {isStudent && (
+          {courses.length !== 0 && isStudent && (
             <Link href="/courses/enroll" className="w-full sm:w-auto">
               <Button className="w-full bg-green-600 hover:bg-green-700">
                 Записаться на курсы
@@ -245,6 +245,13 @@ export default function CoursesPage() {
                 ? 'Вы еще не создали ни одного курса. Начните с создания первого курса!'
                 : 'В настоящее время нет доступных курсов для записи.'}
             </p>
+            {isStudent && (
+              <Link href="/courses/enroll" className="w-full sm:w-auto">
+                <Button className="w-full bg-green-600 hover:bg-green-700">
+                  Записаться на курсы
+                </Button>
+              </Link>
+            )}
             {isTeacher && (
               <Link href="/courses/manage">
                 <Button>Создать первый курс</Button>

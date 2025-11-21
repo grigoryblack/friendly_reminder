@@ -313,7 +313,7 @@ export default function EnrollCoursesPage() {
       </div>
 
       {courses.length === 0 && (
-        <div className="text-center py-8">
+        <div className="text-center mb-20 mt-20">
           <p className="text-gray-500">Курсы временно недоступны.</p>
         </div>
       )}
@@ -330,7 +330,7 @@ export default function EnrollCoursesPage() {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Курс
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 whitespace-nowrap text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Дата и время
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -363,11 +363,15 @@ export default function EnrollCoursesPage() {
                               : 'bg-blue-100 text-blue-800'
                       }`}
                     >
-                      {booking.status === 'CONFIRMED' ? 'Подтверждено' :
-                       booking.status === 'PENDING' ? 'В ожидании' :
-                       booking.status === 'CANCELLED' ? 'Отменено' :
-                       booking.status === 'COMPLETED' ? 'Завершено' :
-                       booking.status}
+                      {booking.status === 'CONFIRMED'
+                        ? 'Подтверждено'
+                        : booking.status === 'PENDING'
+                          ? 'В ожидании'
+                          : booking.status === 'CANCELLED'
+                            ? 'Отменено'
+                            : booking.status === 'COMPLETED'
+                              ? 'Завершено'
+                              : booking.status}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -389,7 +393,9 @@ export default function EnrollCoursesPage() {
 
           {myBookings.length === 0 && (
             <div className="text-center py-8">
-              <p className="text-gray-500">Записей пока нет. Запишитесь на курс, чтобы начать!</p>
+              <p className="text-gray-500">
+                Записей пока нет. <br /> Запишитесь на курс, чтобы начать!
+              </p>
             </div>
           )}
         </div>

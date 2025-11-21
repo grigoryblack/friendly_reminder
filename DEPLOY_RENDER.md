@@ -61,7 +61,7 @@ SMTP_FROM=noreply@friendly-reminder.com
 
 # MEGA для загрузки изображений
 MEGA_EMAIL=drz2002@yandex.ru
-MEGA_PASSWORD=grigory2002
+MEGA_PASSWORD=example228
 
 # Дополнительно
 NODE_ENV=production
