@@ -58,7 +58,17 @@ export default function ManageCoursesPage() {
 
   const fetchCourses = async () => {
     try {
-      const response = await fetch('/api/courses?includeInactive=true')
+      // Get teacher profile first
+      const teacherResponse = await fetch('/api/profile/teacher')
+      if (!teacherResponse.ok) {
+        console.error('Failed to get teacher profile')
+        setLoading(false)
+        return
+      }
+      const teacherData = await teacherResponse.json()
+      
+      // Fetch only this teacher's courses
+      const response = await fetch(`/api/courses?includeInactive=true&teacherId=${teacherData.id}`)
       if (response.ok) {
         const data = await response.json()
         setCourses(data)

@@ -90,11 +90,23 @@ export default function CoursesPage() {
 
   const isTeacher = session?.user.role === 'TEACHER' || session?.user.role === 'ADMIN'
   const isStudent = session?.user.role === 'STUDENT' || session?.user.role === 'PARENT'
+  const [teacherId, setTeacherId] = useState<string | null>(null)
+
+  // Get teacher ID for current user
+  useEffect(() => {
+    if (isTeacher && session?.user.id) {
+      fetch('/api/profile/teacher')
+        .then(res => res.json())
+        .then(data => setTeacherId(data.id))
+        .catch(err => console.error('Failed to get teacher ID:', err))
+    }
+  }, [isTeacher, session?.user.id])
 
   const canEditCourse = (course: Course) => {
     if (session?.user.role === 'ADMIN') return true
-    if (session?.user.role === 'TEACHER') {
-      return true
+    if (session?.user.role === 'TEACHER' && teacherId) {
+      // Teacher can only edit their own courses
+      return course.teacher.id === teacherId
     }
     return false
   }
